@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>12 Months Under the Same Sky</title>
+
+  <style>
+    :root {
+      --sky: #87ceeb;
+      --baby-blue: #bdefff;
+      --deep-blue: #1e3a8a;
+      --soft-blue: #eaf8ff;
+      --cloud: #f8fcff;
+      --pink: #ffb6c1;
+      --rose: #ff7fa3;
+      --text: #17345f;
+      --white-glass: rgba(255, 255, 255, 0.72);
+      --shadow: rgba(30, 58, 138, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255, 182, 193, 0.45), transparent 28%),
+        linear-gradient(180deg, #83d7ff 0%, #bdefff 42%, #f8fcff 100%);
+      overflow-x: hidden;
+    }
+
+    body.locked {
+      overflow: hidden;
+    }
+
+    .sky-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .cloud {
+      position: absolute;
+      width: 150px;
+      height: 48px;
+      background: rgba(255, 255, 255, 0.76);
+      border-radius: 999px;
+      filter: blur(0.2px);
+      animation: floatCloud linear infinite;
+      box-shadow: 0 12px 26px rgba(255, 255, 255, 0.45);
+    }
+
+    .cloud::before,
+    .cloud::after {
+      content: "";
+      position: absolute;
+      background: inherit;
+      border-radius: 50%;
+    }
+
+    .cloud::before {
+      width: 68px;
+      height: 68px;
+      left: 22px;
+      top: -32px;
+    }
+
+    .cloud::after {
+      width: 86px;
+      height: 86px;
+      right: 18px;
+      top: -43px;
+    }
+
+    .cloud.one {
+      top: 12%;
+      left: -170px;
+      animation-duration: 46s;
+    }
+
+    .cloud.two {
+      top: 33%;
+      left: -240px;
+      transform: scale(0.75);
+      opacity: 0.75;
+      animation-duration: 62s;
+      animation-delay: -18s;
+    }
+
+    .cloud.three {
+      top: 70%;
+      left: -190px;
+      transform: scale(0.9);
+      opacity: 0.63;
+      animation-duration: 54s;
+      animation-delay: -32s;
+    }
+
+    @keyframes floatCloud {
+      from { translate: 0 0; }
+      to { translate: calc(100vw + 320px) 0; }
+    }
+
+    .star, .heart, .sparkle {
+      position: absolute;
+      opacity: 0.75;
+      animation: twinkle 2.8s ease-in-out infinite;
+    }
+
+    .star {
+      color: #ffffff;
+      font-size: 16px;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.95);
+    }
+
+    .heart {
+      color: var(--rose);
+      font-size: 14px;
+      text-shadow: 0 0 12px rgba(255, 127, 163, 0.45);
+    }
+
+    .sparkle {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 0 14px rgba(255, 255, 255, 0.85);
+    }
+
+    @keyframes twinkle {
+      0%, 100% { transform: scale(0.9); opacity: 0.45; }
+      50% { transform: scale(1.18); opacity: 1; }
+    }
+
+    .screen {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 26px 18px;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    .container {
+      width: min(980px, 100%);
+      margin: 0 auto;
+    }
+
+    .hero-card,
+    .glass-card {
+      background: var(--white-glass);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      border-radius: 30px;
+      box-shadow: 0 24px 60px var(--shadow);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .hero-card {
+      padding: 34px 22px;
+      text-align: center;
+      max-width: 620px;
+      margin: 0 auto;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 182, 193, 0.55), transparent 70%);
+      top: -95px;
+      right: -80px;
+    }
+
+    .small-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.62);
+      color: var(--deep-blue);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    h1, h2, h3 {
+      color: var(--deep-blue);
+      line-height: 1.1;
+    }
+
+    h1 {
+      font-size: clamp(2.15rem, 10vw, 4.6rem);
+      letter-spacing: -0.055em;
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      font-size: clamp(1.85rem, 7vw, 3.5rem);
+      letter-spacing: -0.04em;
+      margin-bottom: 14px;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-size: 1rem;
+      line-height: 1.75;
+    }
+
+    .lead {
+      max-width: 620px;
+      margin: 0 auto 22px;
+      font-size: 1.07rem;
+    }
+
+    .btn {
+      border: 0;
+      outline: 0;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 14px 22px;
+      font-size: 0.97rem;
+      font-weight: 800;
+      color: white;
+      background: linear-gradient(135deg, var(--deep-blue), #3b82f6);
+      box-shadow: 0 14px 26px rgba(30, 58, 138, 0.25);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+      min-height: 48px;
+    }
+
+    .btn:hover,
+    .btn:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 34px rgba(255, 127, 163, 0.28);
+      filter: brightness(1.04);
+    }
+
+    .btn.secondary {
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--deep-blue);
+      border: 1px solid rgba(30, 58, 138, 0.15);
+      box-shadow: 0 12px 22px rgba(30, 58, 138, 0.12);
+    }
+
+    .button-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+
+    .input-wrap {
+      margin: 20px auto 0;
+      display: grid;
+      gap: 12px;
+      max-width: 360px;
+    }
+
+    input {
+      width: 100%;
+      border: 1px solid rgba(30, 58, 138, 0.18);
+      background: rgba(255, 255, 255, 0.76);
+      border-radius: 18px;
+      padding: 15px 16px;
+      font-size: 1.05rem;
+      color: var(--deep-blue);
+      text-align: center;
+      outline: none;
+      box-shadow: inset 0 2px 12px rgba(30, 58, 138, 0.06);
+    }
+
+    input:focus {
+      border-color: var(--rose);
+      box-shadow: 0 0 0 4px rgba(255, 127, 163, 0.15);
+    }
+
+    .hint,
+    .error {
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+
+    .hint {
+      color: rgba(23, 52, 95, 0.75);
+    }
+
+    .error {
+      display: none;
+      color: #c0265c;
+      font-weight: 700;
+    }
+
+    .main-site {
+      position: relative;
+      z-index: 1;
+      display: none;
+    }
+
+    .main-site.active {
+      display: block;
+    }
+
+    header {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 90px 18px 34px;
+      text-align: center;
+      position: relative;
+    }
+
+    .moon {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: #fff8d8;
+      box-shadow: 0 0 45px rgba(255, 248, 216, 0.85);
+      margin: 0 auto 22px;
+      position: relative;
+    }
+
+    .moon::after {
+      content: "";
+      position: absolute;
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
+      background: rgba(189, 239, 255, 0.9);
+      left: 24px;
+      top: -5px;
+    }
+
+    nav {
+      position: fixed;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      width: min(720px, calc(100% - 22px));
+      background: rgba(255, 255, 255, 0.68);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 999px;
+      box-shadow: 0 14px 30px rgba(30, 58, 138, 0.14);
+      padding: 8px;
+      display: flex;
+      gap: 5px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    nav a {
+      white-space: nowrap;
+      text-decoration: none;
+      color: var(--deep-blue);
+      font-weight: 800;
+      font-size: 0.78rem;
+      padding: 9px 12px;
+      border-radius: 999px;
+      transition: background 0.2s ease;
+    }
+
+    nav a:hover {
+      background: rgba(135, 206, 235, 0.26);
+    }
+
+    section {
+      padding: 82px 18px;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .section-title p {
+      max-width: 640px;
+      margin: 0 auto;
+      color: rgba(23, 52, 95, 0.78);
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .timeline-grid {
+      grid-template-columns: repeat(12, minmax(260px, 1fr));
+      overflow-x: auto;
+      padding: 10px 4px 24px;
+      scroll-snap-type: x mandatory;
+      scrollbar-color: rgba(30, 58, 138, 0.26) transparent;
+    }
+
+    .month-card {
+      min-height: 430px;
+      padding: 20px;
+      scroll-snap-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .month-card::after {
+      content: "♥";
+      position: absolute;
+      right: 18px;
+      bottom: 10px;
+      color: rgba(255, 127, 163, 0.28);
+      font-size: 3.2rem;
+      line-height: 1;
+    }
+
+    .month-number {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--sky), var(--rose));
+      color: white;
+      font-weight: 900;
+      margin-bottom: 14px;
+      box-shadow: 0 12px 20px rgba(30, 58, 138, 0.18);
+    }
+
+    .letters-grid {
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    }
+
+    .letter-card {
+      padding: 20px;
+      min-height: 230px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .letter-card button {
+      margin-top: 14px;
+      width: 100%;
+    }
+
+    .letter-message {
+      display: none;
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.58);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+    }
+
+    .letter-card.open .letter-message {
+      display: block;
+      animation: softReveal 0.35s ease both;
+    }
+
+    @keyframes softReveal {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reason-box {
+      padding: 28px 22px;
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .reason-text {
+      margin: 20px auto 0;
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(1.1rem, 4.8vw, 1.7rem);
+      line-height: 1.4;
+      color: var(--deep-blue);
+      font-weight: 850;
+      letter-spacing: -0.025em;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+
+    .quiz-card {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .quiz-question {
+      font-size: 1.2rem;
+      font-weight: 850;
+      color: var(--deep-blue);
+      margin-bottom: 16px;
+    }
+
+    .choices {
+      display: grid;
+      gap: 10px;
+    }
+
+    .choice {
+      width: 100%;
+      text-align: left;
+      border: 1px solid rgba(30, 58, 138, 0.14);
+      border-radius: 18px;
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.64);
+      color: var(--text);
+      font-weight: 750;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .choice:hover {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.88);
+    }
+
+    .quiz-result {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255, 182, 193, 0.26);
+      color: var(--deep-blue);
+      font-weight: 800;
+      display: none;
+    }
+
+    .future-list {
+      max-width: 780px;
+      margin: 0 auto;
+      display: grid;
+      gap: 12px;
+    }
+
+    .future-item {
+      padding: 16px 18px;
+      border-radius: 22px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      box-shadow: 0 12px 26px rgba(30, 58, 138, 0.08);
+    }
+
+    .future-item span {
+      color: var(--rose);
+      font-weight: 950;
+      font-size: 1.1rem;
+    }
+
+    .message-card {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 28px 22px;
+      text-align: center;
+    }
+
+    .message-card p {
+      margin-bottom: 14px;
+    }
+
+    .signature {
+      margin-top: 22px;
+      color: var(--deep-blue);
+      font-size: 1.25rem;
+      font-weight: 900;
+    }
+
+    .final-reveal {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(135, 206, 235, 0.32), rgba(255, 182, 193, 0.34));
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      animation: softReveal 0.4s ease both;
+    }
+
+    .floating-pop {
+      position: fixed;
+      z-index: 50;
+      pointer-events: none;
+      animation: rise 2.2s ease-out forwards;
+      font-size: 22px;
+    }
+
+    @keyframes rise {
+      0% { transform: translateY(0) scale(0.9); opacity: 1; }
+      100% { transform: translateY(-160px) scale(1.3) rotate(18deg); opacity: 0; }
+    }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 34px 18px 48px;
+      color: rgba(23, 52, 95, 0.7);
+      font-weight: 700;
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 640px) {
+      .hero-card {
+        border-radius: 26px;
+        padding: 30px 18px;
+      }
+
+      section {
+        padding: 70px 16px;
+      }
+
+      nav {
+        justify-content: flex-start;
+      }
+
+      nav a {
+        font-size: 0.74rem;
+        padding: 9px 10px;
+      }
+
+      .timeline-grid {
+        grid-template-columns: repeat(12, 86vw);
+      }
+
+      .month-card {
+        min-height: 500px;
+      }
+    }
+  </style>
+</head>
+
+<body class="locked">
+  <div class="sky-bg" aria-hidden="true">
+    <div class="cloud one"></div>
+    <div class="cloud two"></div>
+    <div class="cloud three"></div>
+    <div class="star" style="top: 9%; left: 14%; animation-delay: 0.1s;">✦</div>
+    <div class="star" style="top: 18%; left: 78%; animation-delay: 0.7s;">✧</div>
+    <div class="star" style="top: 49%; left: 7%; animation-delay: 1.2s;">✦</div>
+    <div class="star" style="top: 66%; left: 87%; animation-delay: 0.4s;">✧</div>
+    <div class="heart" style="top: 27%; left: 16%; animation-delay: 0.5s;">♥</div>
+    <div class="heart" style="top: 58%; left: 76%; animation-delay: 1.5s;">♥</div>
+    <div class="sparkle" style="top: 38%; left: 45%; animation-delay: 0.9s;"></div>
+    <div class="sparkle" style="top: 76%; left: 26%; animation-delay: 1.7s;"></div>
+  </div>
+
+  <!-- Opening Screen -->
+  <main id="openingScreen" class="screen active">
+    <div class="hero-card">
+      <div class="small-label">☁ Made under the same sky</div>
+      <h1>Hi, Ily.</h1>
+      <p class="lead">
+        I made something small for you. No pictures together yet, no perfect couple moments yet, but still filled with everything I have been meaning to say.
+      </p>
+      <button class="btn" onclick="showPasscode()">Tap here, BIII</button>
+    </div>
+  </main>
+
+  <!-- Passcode Screen -->
+  <section id="passcodeScreen" class="screen">
+    <div class="hero-card">
+      <div class="small-label">🔐 Just for you</div>
+      <h2>Enter the magic word</h2>
+      <p class="lead">
+        Clue: I rarely say this out loud during calls, so we changed it into something I can say out loud.
+      </p>
+
+      <div class="input-wrap">
+        <input id="passcodeInput" type="text" placeholder="Type the magic word" autocomplete="off" />
+        <button class="btn" onclick="checkPasscode()">Unlock</button>
+        <p id="passcodeError" class="error">Hmm, not that one. Try again, BIII.</p>
+        <p class="hint">Tip: Use capital letters or small letters. Both are okay.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Website -->
+  <div id="mainSite" class="main-site">
+    <nav aria-label="Main navigation">
+      <a href="#home">Home</a>
+      <a href="#timeline">12 Months</a>
+      <a href="#letters">Letters</a>
+      <a href="#reasons">Reasons</a>
+      <a href="#quiz">Quiz</a>
+      <a href="#future">Future</a>
+      <a href="#final">Final</a>
+    </nav>
+
+    <header id="home">
+      <div class="container">
+        <div class="moon" aria-hidden="true"></div>
+        <div class="hero-card fade-up">
+          <div class="small-label">💙 For Ily</div>
+          <h1>12 Months Under the Same Sky</h1>
+          <p class="lead">
+            We may be far from each other, but I like to believe we are still under the same sky. In every quiet constellation above us, I am reminded of the serendipity of meeting you. And for 12 months, that sky has always reminded me of you.
+          </p>
+          <div class="button-row">
+            <a class="btn" href="#timeline" style="text-decoration:none; display:inline-flex; align-items:center;">Start reading</a>
+            <button class="btn secondary" onclick="makePops(12)">Send tiny hearts</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section id="timeline">
+      <div class="container">
+        <div class="section-title fade-up">
+          <div class="small-label">☁ Our little timeline</div>
+          <h2>12 months of choosing you</h2>
+          <p>We may not have photos together yet, so I made these little memory cards instead. Every month still meant something to me.</p>
+        </div>
+
+        <div class="timeline-grid">
+          <article class="glass-card month-card fade-up">
+            <div class="month-number">1</div>
+            <h3>The Beginning</h3>
+            <p>Before I met you, I was not looking for someone to love. I was only looking for someone I could be comfortable with, a companion, a friend, someone I could play games with and share little moments with.</p>
+            <p>Meeting you felt expected because you came into my life naturally, but falling in love with you was never part of my plan. It just happened, ILY. You slowly became someone I did not want to lose, not because you were simply there, but because being with you felt different, soft, and real.</p>
+          </article>
+
+          <article class="glass-card month-card fade-up">
+            <div class="month-number">2</div>
+            <h3>Getting Closer</h3>
+            <p>Little talks, laughs, mga tawanan natin, and mga kulitan slowly became special to me. I started feeling safer because you were there, BIII, waiting for me, caring for me, and making my days feel less heavy.</p>
+            <p>Without forcing anything, you became someone I wanted to talk to, someone I looked for, and someone I felt at peace with. You became part of my routine, but more than that, MISIS, you became part of my heart.</p>
+          </article>
+
+          <article class="glass-card month-card fade-up">
+            <div class="month-number">3</div>
+            <h3>Soft Feelings</h3>
+            <p>At first, maybe you fell first, but I think I fell harder. I started realizing that this was not just a simple crush anymore. You became someone I cared about in a way I could not ignore.</p>
+            <p>I missed you every day, ILY, even when I was busy, even when I had work, even when I tried to focus on other things. Somehow, you became my rest. After a long day, ikaw yung gusto kong balikan. You became my soft place in a world that often felt tiring.</p>
+          </article>
+
+          <article class="glass-card month-card fade-up">
+            <div class="month-number">4</div>
+            <h3>Still Choosing</h3>
+            <p>That month was not easy for us, BIII. We had fights, misunderstandings, and moments where our feelings were tested. There were times when we hurt each other without meaning to, and times when pride made things heavier than they should have been.</p>
+            <p>But even through all of that, we still chose to grow. We chose to learn, to forgive, and to understand each other better. It was not a perfect month, MISIS, but it proved something important: even when things were hard, we still chose each other.</p>
+          </article>
+
+          <article class="glass-card month-card fade-up">
+            <div class="month-number">5</div>
+            <h3>The Game of Trust</h3>
+            <p>Our fifth month was probably one of the hardest challenges we faced. It felt like everything became a test of trust. May nalaman ako, may mga sinabi, may mga evidence, and honestly, it was hard to know what to believe at first.</p>
+            <p>But even with all the doubts and confusion, I chose to believe you, ILY. I chose to trust your words. I chose to stay, not because it was easy, but because my heart still wanted to believe in you and in us.</p>
+          </article>
+
+          <article class="glass-card month-card fade-up">
+            <div class="month-number">6</div>
+            <h3>Halfway There</h3>
+            <p>Six months, BIII. Half a year. Ang dami na nating pinagdaanan by that time. Ang daming fights, ang daming paulit-ulit na misunderstandings, may napapagod, may sumusuko, may nasasaktan, pero somehow, nandito pa rin tayo.</p>
+            <p>It was not easy, and I will never pretend that it was. But maybe that is what made it emotional. We kept trying even when we were tired. We kept holding on even when things felt heavy. Six months passed, MISIS, and despite everything, we were still making it.</p>
+          </article>
+
+          <article class="glass-card month-card fade-up">
+            <div class="month-number">7</div>
+            <h3>The Hardest Silence</h3>
+            <p>Our seventh month was painful. We entered that phase of no contact for a month and one week, and honestly, it was hard. Sobra. Little by little, I felt myself letting go. Unti-unti nagbu-build up yung tampo, unti-unti napapagod yung puso ko, and unti-unti parang nawawala yung love.</p>
+            <p>Kaya ko sanang bumitaw, ILY. But I did not. I still chose to stay, even when it hurt. And I know it was not only hard for me. It was hard for you too. We both suffered in our own ways, BIII, but even in that silence, something in me still hoped for us.</p>
+          </article>
+
+          <article class="glass-card month-card fade-up">
+            <div class="month-number">8</div>
+            <h3>Quiet Proof</h3>
+            <p>After the no-contact phase, we finally found our way back to each other. Hindi agad naging okay lahat. May tampo pa rin sa puso ko, may walls pa rin akong binuo, and I was still scared to fully let everything feel normal again.</p>
+            <p>But slowly, MISIS, those walls started to go down. Slowly, the pain became lighter. Slowly, I remembered why I kept choosing you. Love is not always loud. Sometimes it is patience. Sometimes it is healing. Sometimes it is choosing the same person again, even after the hardest silence.</p>
+          </article>
+
+          <article class="glass-card month-card fade-up">
+            <div class="month-number">9</div>
+            <h3>Still You</h3>
+            <p>By the ninth month, I think we already knew that loving each other was not always going to be easy. We had different moods, different thoughts, different fears, and sometimes we did not know how to handle each other properly.</p>
+            <p>But even with all of that, ILY, the answer stayed the same. It was still you. Kahit ang daming nangyari, kahit minsan ang gulo natin, kahit minsan hindi natin alam paano aayusin, ikaw pa rin yung gusto kong intindihin. Ikaw pa rin yung gusto kong piliin.</p>
+          </article>
+
+          <article class="glass-card month-card fade-up">
+            <div class="month-number">10</div>
+            <h3>Learning to Communicate</h3>
+            <p>Our tenth month taught me that love is not only about staying. It is also about learning how to communicate, how to listen, and how to say what hurts before it becomes too heavy.</p>
+            <p>We kept saying that we needed to communicate, BIII, but sometimes pride got in the way. Walang nagpapatalo, nagpapataasan tayo ng pride, and without noticing it, nasasaktan na natin yung isa’t isa. But I think that month showed us that love also needs honesty, not just feelings.</p>
+          </article>
+
+          <article class="glass-card month-card fade-up">
+            <div class="month-number">11</div>
+            <h3>The Small Things</h3>
+            <p>Our eleventh month made me realize that sometimes, it is not always the big fights that hurt the most. Sometimes, it is the small things. The little misunderstandings, the unsaid feelings, the tiny triggers, and the things we kept inside because we did not know how to open up properly.</p>
+            <p>Those small things can fill the cup until it spills, ILY. And maybe that is what happened to us sometimes. But even then, MISIS, I still wanted us to learn. I still wanted us to understand each other better. I still wanted us to choose softness instead of pride.</p>
+          </article>
+
+          <article class="glass-card month-card fade-up">
+            <div class="month-number">12</div>
+            <h3>Today</h3>
+            <p>Twelve months since I started courting you, BIII. Twelve months of patience, feelings, fights, silence, trust, forgiveness, and choosing you again and again.</p>
+            <p>Hindi naging madali yung story natin, ILY. We were not always gentle. We were not always okay. We had moments where we almost lost each other, moments where we got tired, and moments where love felt heavy. But look at us now, still here, still trying, still holding on to what we have.</p>
+            <p>And honestly, MISIS, if I could go back to the beginning, I would still choose to meet you. I would still choose to know you. I would still choose to love you.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="letters">
+      <div class="container">
+        <div class="section-title fade-up">
+          <div class="small-label">✉ Open when...</div>
+          <h2>Letters for you</h2>
+          <p>Tap each card whenever you need a small reminder from me.</p>
+        </div>
+
+        <div class="grid letters-grid">
+          <article class="glass-card letter-card fade-up">
+            <h3>Open when you miss me</h3>
+            <p>I made this one for the days when distance feels extra unfair.</p>
+            <button class="btn secondary" onclick="toggleLetter(this)">Open letter</button>
+            <div class="letter-message">
+              <p>Haloooo, I miss you so much, BIIIII. Call me lang ha? Whenever you miss me, okay? How I wish na nandiyan ako ngayon, kayakap ka.</p>
+              <p>I badly want to hear your voice again and your laughs. So whenever you miss me, or whatever the situation is, just call me, okay? I love you, and I miss you so much.</p>
+            </div>
+          </article>
+
+          <article class="glass-card letter-card fade-up">
+            <h3>Open when you feel tired</h3>
+            <p>For the days when everything feels heavy.</p>
+            <button class="btn secondary" onclick="toggleLetter(this)">Open letter</button>
+            <div class="letter-message">
+              <p>Pahinga ka lang, MISIS, okay? You do not always have to be strong. You do not have to carry everything alone.</p>
+              <p>I am proud of you, even on the days when all you can do is survive. Tandaan mo, rest should always be your priority ha? I know you may feel like hindi mo na kaya right now, but maybe you just need to rest first, okay?</p>
+              <p>Then after that, go again. I am so proud of you, BIII.</p>
+            </div>
+          </article>
+
+          <article class="glass-card letter-card fade-up">
+            <h3>Open when you doubt us</h3>
+            <p>For moments when your thoughts get loud.</p>
+            <button class="btn secondary" onclick="toggleLetter(this)">Open letter</button>
+            <div class="letter-message">
+              <p>I know hindi man tayo yung perfect relationship, just like the stories you have read, but please know na kaya natin. Malalagpasan natin lahat, okay?</p>
+              <p>I know it is not easy. And maybe by the time you reread this, I might be lost with myself too. If that happens, please remind me, okay? Let me remember why I love you.</p>
+              <p>And ikaw rin, ILY, please remember why you loved me. Let us trust in us. We can do this, even if it is hard.</p>
+            </div>
+          </article>
+
+          <article class="glass-card letter-card fade-up">
+            <h3>Open when you need to smile</h3>
+            <p>A tiny reminder that you are loved.</p>
+            <button class="btn secondary" onclick="toggleLetter(this)">Open letter</button>
+            <div class="letter-message">
+              <p>NAPAKAAAA GANDAAA NAMAN NG MISIS KO NA YAN OH. DIBAAAA, MISIS RUIZ? HAHAHAHA.</p>
+              <p>Ay, hindi ka ba napangiti? Sige, magjo-joke na lang ako.</p>
+              <p>Kilala mo na si Nicole? Hindi? Kapatid yun ni NiText. HAHAHAHA.</p>
+              <p>Anong ginawa ni Michael Jackson sa SM?<br>Bili jeans. HAHAHAHAHA.</p>
+              <p>Yoko na, bye.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="reasons">
+      <div class="container">
+        <div class="section-title fade-up">
+          <div class="small-label">💙 Reasons</div>
+          <h2>Why I love you</h2>
+          <p>Tap the button and let the sky give you one reason at a time.</p>
+        </div>
+
+        <div class="glass-card reason-box fade-up">
+          <button class="btn" onclick="showReason()">Give me one reason</button>
+          <div id="reasonText" class="reason-text">Because first of all, you are you, and being you is enough.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="quiz">
+      <div class="container">
+        <div class="section-title fade-up">
+          <div class="small-label">✨ Tiny quiz</div>
+          <h2>A little question for you</h2>
+          <p>Very hard quiz. Only the most special person can answer it.</p>
+        </div>
+
+        <div class="glass-card quiz-card fade-up">
+          <div class="quiz-question">What do I always choose?</div>
+          <div class="choices">
+            <button class="choice" onclick="answerQuiz(false)">A. Sleep</button>
+            <button class="choice" onclick="answerQuiz(false)">B. Food</button>
+            <button class="choice" onclick="answerQuiz(true)">C. You</button>
+            <button class="choice" onclick="answerQuiz(false)">D. Games</button>
+          </div>
+          <div id="quizResult" class="quiz-result"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="future">
+      <div class="container">
+        <div class="section-title fade-up">
+          <div class="small-label">🌙 Someday</div>
+          <h2>When we finally meet</h2>
+          <p>These are the little things I want to do with you when distance finally stops being in the way.</p>
+        </div>
+
+        <div class="future-list fade-up">
+          <div class="future-item"><span>01</span><p>I want to have a beach date with you, BIII. I want us to feel the sand, hear the waves, and finally take our first real picture together.</p></div>
+          <div class="future-item"><span>02</span><p>I want to go on an arcade date or a cinema date with you, ILY. Something simple, fun, and normal, because even ordinary dates would feel special if I am with you.</p></div>
+          <div class="future-item"><span>03</span><p>I want to have a night walk with you, MISIS. We can walk slowly, talk about anything, and maybe look at the stars together like we waited so long for that moment.</p></div>
+          <div class="future-item"><span>04</span><p>I want us to have a skincare date. Parehas tayong mag-aalaga ng face, maglalagay ng products, tatawa sa isa’t isa, and just enjoy a soft little moment together.</p></div>
+          <div class="future-item"><span>05</span><p>I want to have a quiet day with you where we do not need to rush anything. Just us, together, finally close enough to prove that all the waiting was worth it.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="final">
+      <div class="container">
+        <div class="glass-card message-card fade-up">
+          <div class="small-label">💌 Final message</div>
+          <h2>For you, Ily</h2>
+          <p>BIII, I know our story is not perfect.</p>
+          <p>We do not have pictures together yet, we do not have proper dates yet, and we do not have the kind of memories that other people already have. Most of what we have happened through screens, calls, chats, silence, misunderstandings, and waiting.</p>
+          <p>But even with all of that, ILY, what we have still feels real to me.</p>
+          <p>For 12 months, I kept choosing you. Not only during the sweet days, but also during the hard ones. Through distance, pride, fights, doubts, no-contact days, and all the little things we did not know how to fix at first.</p>
+          <p>I know we still have a lot to learn. We still need to communicate better, understand each other more, and choose softness when pride starts getting loud. But despite everything, MISIS, I am still thankful that I met you.</p>
+
+          <div class="signature">Happy 12 months since I started courting you, ILY.</div>
+          <p style="margin-top: 18px;"><strong>I always do, and I always will.</strong></p>
+
+          <div class="button-row">
+            <button class="btn" onclick="revealFinal()">One last thing...</button>
+          </div>
+
+          <div id="finalReveal" class="final-reveal">
+            <h3>Happy 12th month of love, ILY. I love you.</h3>
+            <p>I wanted to ask if I can be your boyfriend na, but I do not want to rush you. Gusto kong ikaw mismo yung magdikta ng panahon natin. I want it to be your choice, your timing, and your heart that decides.</p>
+            <p>And yes, gaya nga ng sabi ko, this will be the last month I will court you. Not because I am giving up on you, but because I respect you enough to not keep waiting in a way that might pressure you. When the 13th month comes, I will accept whatever your heart chooses.</p>
+            <p>If I did not meet your standards to be your boyfriend, I am sorry. But I will still be grateful, because I was given the chance to love you and to be loved by Jerilyn Namit Padagdag.</p>
+            <p>Always remember, I will choose you every day.</p>
+            <p><strong>I always do, and I always will.</strong></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      Made with a sky full of patience, feelings, and love. ☁💙
+    </footer>
+  </div>
+
+  <script>
+    const MAGIC_WORD = "WOAINI";
+
+    const reasons = [
+      "Because first of all, you are you, and being you is enough.",
+      "Dahil sa lahat, ikaw yung unang babaeng nakapag-handle at nakaintindi ng ugali ko.",
+      "Because you make me feel cared for, even in the smallest ways.",
+      "Because kahit ang kulit ko, you still try to understand me.",
+      "Because you became my pahinga after long and tiring days.",
+      "Dahil kahit malayo ka, you still feel close to my heart.",
+      "Because your voice can make my day better.",
+      "Because your laugh is one of the things I badly want to hear again and again.",
+      "Because you made me believe that love can happen even when I was not looking for it.",
+      "Because you stayed, even during the times when I was hard to understand.",
+      "Because you are the person who made me want to be softer.",
+      "Because you are my BIII, my ILY, my MISIS.",
+      "Dahil kahit ang dami nating away, ikaw pa rin yung gusto kong ayusin.",
+      "Because I still want a future where I finally get to stand beside you.",
+      "Because you make me want to cancel all my plans just to make time for you. Mema ka na naman niyan, pero totoo.",
+      "Because you make ordinary conversations feel special.",
+      "Because you are the first person I want to tell things to.",
+      "Dahil kahit minsan nakakainis ka, ikaw pa rin yung hinahanap ko.",
+      "Because you made me feel loved in a way I did not expect.",
+      "Because you taught me patience, even when it was hard.",
+      "Because with you, I learned that love is not always easy, but it can still be worth it.",
+      "Because I miss you even when I am busy.",
+      "Because I want to see you smile for real, not just through a screen.",
+      "Dahil kahit ilang beses tayong nahirapan, may part pa rin sa akin na pinipili ka.",
+      "Because at the end of the day, kahit games, sleep, or food pa yan, ikaw pa rin pipiliin ko."
+    ];
+
+    function showPasscode() {
+      document.getElementById("openingScreen").classList.remove("active");
+      document.getElementById("passcodeScreen").classList.add("active");
+      setTimeout(() => document.getElementById("passcodeInput").focus(), 250);
+    }
+
+    function checkPasscode() {
+      const input = document.getElementById("passcodeInput");
+      const error = document.getElementById("passcodeError");
+      const value = input.value.trim().toUpperCase();
+
+      if (value === MAGIC_WORD) {
+        document.getElementById("passcodeScreen").classList.remove("active");
+        document.getElementById("mainSite").classList.add("active");
+        document.body.classList.remove("locked");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        makePops(18);
+      } else {
+        error.style.display = "block";
+        input.value = "";
+        input.focus();
+      }
+    }
+
+    document.getElementById("passcodeInput").addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        checkPasscode();
+      }
+    });
+
+    function toggleLetter(button) {
+      const card = button.closest(".letter-card");
+      card.classList.toggle("open");
+      button.textContent = card.classList.contains("open") ? "Close letter" : "Open letter";
+      makePops(3);
+    }
+
+    function showReason() {
+      const reasonText = document.getElementById("reasonText");
+      const randomIndex = Math.floor(Math.random() * reasons.length);
+      reasonText.style.opacity = "0";
+      reasonText.style.transform = "translateY(8px)";
+
+      setTimeout(() => {
+        reasonText.textContent = reasons[randomIndex];
+        reasonText.style.opacity = "1";
+        reasonText.style.transform = "translateY(0)";
+      }, 180);
+
+      makePops(5);
+    }
+
+    function answerQuiz(isCorrect) {
+      const result = document.getElementById("quizResult");
+      result.style.display = "block";
+
+      if (isCorrect) {
+        result.textContent = "Ayan, tama. Walang halong mema yan. Gusto mo delete ko pa laro ko eh HAHAHA. I LOVE YOU SO MUCH, BIII. Ikaw at ikaw pipiliin ko, okay?";
+        makePops(10);
+      } else {
+        result.textContent = "Alam ko naman yan pipiliin mo HAHAHA. Tapos sasabihan mo na naman akong mema kasi yung clue is IKAW. Totoo nga. Pumili ka ulit, mali ka.";
+      }
+    }
+
+    function revealFinal() {
+      const reveal = document.getElementById("finalReveal");
+      reveal.style.display = "block";
+      makePops(30);
+    }
+
+    function makePops(amount) {
+      const symbols = ["💙", "🩵", "💗", "✨", "☁"];
+
+      for (let i = 0; i < amount; i++) {
+        const pop = document.createElement("div");
+        pop.className = "floating-pop";
+        pop.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        pop.style.left = Math.random() * 100 + "vw";
+        pop.style.top = 72 + Math.random() * 22 + "vh";
+        pop.style.animationDelay = Math.random() * 0.55 + "s";
+        document.body.appendChild(pop);
+
+        setTimeout(() => {
+          pop.remove();
+        }, 2600);
+      }
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll(".fade-up").forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
